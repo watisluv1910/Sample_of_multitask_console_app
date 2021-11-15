@@ -2,6 +2,15 @@
 #include <string>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <cmath>
+#include <cstdlib>
+#include <fstream> // for if/ofstream
+#include <time.h> // for srand
+#include <vector> // for vector
+#include <stdio.h> // for printf
+#include <stdlib.h> // for rand, srand
+#include <sstream>
+#include <utility>
 
 using namespace std;
 
