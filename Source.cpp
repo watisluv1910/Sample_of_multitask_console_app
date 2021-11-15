@@ -5,54 +5,100 @@
 
 using namespace std;
 
-double inicializeNotNegativeDouble() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream
-		// as it is in the wrong format
+//function that check type error or "border crossing"
+int initializeInteger(string path, int lowerBound, int upperBound) {
+	bool isCorrect = false;
+	int temporaryVariable;
+	while (!isCorrect) {
+		string temporaryVariableString;
+		cin >> temporaryVariableString;
+		isCorrect = true;
+		for (size_t i = 0; i < 128; i++) {
+			if ((i < (int)'0' || i >(int)'9') && i != (int)'-') {
+				if (temporaryVariableString.find((char)i) != string::npos) {
+					isCorrect = false;
+				}
+			}
+		}
+		if (isCorrect) {
+			temporaryVariable = stoi(temporaryVariableString);
+			if (lowerBound != 0 || upperBound != 0) {
+				if (temporaryVariable < lowerBound
+					|| temporaryVariable > upperBound) {
+					cout << "Initialization error.\nEnter correct value:\n";
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					isCorrect = false;
+					// operator >> will no longer fetch data from the stream 
+					// as it is in the wrong format
+				}
+			}
+			else if (path == "allExceptZero" && temporaryVariable == 0 ||
+				path == "negative" && temporaryVariable >= 0 ||
+				path == "notpositive" && temporaryVariable > 0 ||
+				path == "notnegative" && temporaryVariable < 0 ||
+				path == "positive" && temporaryVariable <= 0) {
+				cout << "Initialization error.\nEnter correct value:\n";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				isCorrect = false;
+			}
+		}
+		else {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 	return temporaryVariable;
 }
 
-double inicializeDouble() { // function that check type error
-	double temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable))
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream
-		// as it is in the wrong format
-	}
-	return temporaryVariable;
-}
-
-int inicializeNotNegativeInteger() { // function that check type error
-	int temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable) || temporaryVariable < 0)
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream 
-		// as it is in the wrong format
-	}
-	return temporaryVariable;
-}
-
-int inicializeInteger() { // function that check type error
-	int temporaryVariable; // inicialization of temporary variable 
-	while (!(cin >> temporaryVariable))
-	{
-		cout << "Inicialization error.\nEnter correct value:\n";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		// operator >> will no longer fetch data from the stream as 
-		// it is in the wrong format
+// function that check type error or "border crossing"
+double initializeDouble(string path, double lowerBound, double upperBound) {
+	bool isCorrect = false;
+	double temporaryVariable;
+	while (!isCorrect) {
+		string temporaryVariableString;
+		cin >> temporaryVariableString;
+		isCorrect = true;
+		for (size_t i = 0; i < 128; i++) {
+			if ((i < (int)'0' || i >(int)'9') &&
+				i != (int)'-' && i != (int)'.') {
+				if (temporaryVariableString.find((char)i) != string::npos) {
+					isCorrect = false;
+				}
+			}
+		}
+		if (isCorrect) {
+			// turns a string into a stream:
+			istringstream stringStream(temporaryVariableString);
+			stringStream >> temporaryVariable; // reads data from the stream
+			if (lowerBound != 0.0 || upperBound != 0.0) {
+				if (temporaryVariable < lowerBound ||
+					temporaryVariable > upperBound) {
+					cout << "Initialization error.\nEnter correct value:\n";
+					cin.clear();
+					// operator >> will no longer fetch data from the stream:
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					isCorrect = false;
+				}
+			}
+			else if (path == "allExceptZero" && temporaryVariable == 0.0 ||
+				path == "negative" && temporaryVariable >= 0.0 ||
+				path == "notpositive" && temporaryVariable > 0.0 ||
+				path == "notnegative" && temporaryVariable < 0.0 ||
+				path == "positive" && temporaryVariable <= 0.0) {
+				cout << "Initialization error.\nEnter correct value:\n";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				isCorrect = false;
+			}
+		}
+		else {
+			cout << "Initialization error.\nEnter correct value:\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		}
 	}
 	return temporaryVariable;
 }
@@ -69,9 +115,8 @@ int main() {
 	int chooseTask;
 	setlocale(LC_ALL, "Russian");
 	cout << "Hello!\nTask number can't be more than 2.\n"
-		"Enter 0 to end the programm.\n"
-		"Enter the task number: \n";
-	chooseTask = inicializeNotNegativeInteger();
+		"Enter 0 to end the programm.\nEnter the task number :\n";
+	chooseTask = initializeInteger("notnegative", 0, 0);
 	while (chooseTask > 0) {
 		switch (chooseTask) {
 		case 1:
@@ -87,6 +132,6 @@ int main() {
 			break;
 		}
 		cout << "Enter the next task number:\n";
-		chooseTask = inicializeNotNegativeInteger();;
+		chooseTask = initializeInteger("notnegative", 0, 0);
 	}
 }
