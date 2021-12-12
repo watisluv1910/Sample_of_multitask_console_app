@@ -14,7 +14,7 @@
 using namespace std;
 
 //function that check type error or "border crossing"
-int initializeInteger(string path, int lowerBound, int upperBound) {
+int initializeInteger(string path = "all", int lowerBound = 0, int upperBound = 0) {
 	bool isCorrect = false;
 	int temporaryVariable;
 	while (!isCorrect) {
@@ -22,9 +22,18 @@ int initializeInteger(string path, int lowerBound, int upperBound) {
 		cin >> temporaryVariableString;
 		isCorrect = true;
 		for (size_t i = 0; i < 128; i++) {
-			if ((i < (int)'0' || i >(int)'9') && i != (int)'-') {
-				if (temporaryVariableString.find((char)i) != string::npos) {
-					isCorrect = false;
+			if (i < (int)'0' || i >(int)'9') {
+				if (i != (int)'-') {
+					if (temporaryVariableString.find((char)i) != string::npos) {
+						isCorrect = false;
+					}
+				}
+				else if (temporaryVariableString.find((char)i) != string::npos) {
+					if ((count(temporaryVariableString.begin(),
+						temporaryVariableString.end(), (char)i) > 1)
+						|| temporaryVariableString.length() == 1) {
+						isCorrect = false;
+					}
 				}
 			}
 		}
@@ -62,7 +71,7 @@ int initializeInteger(string path, int lowerBound, int upperBound) {
 }
 
 // function that check type error or "border crossing"
-double initializeDouble(string path, double lowerBound, double upperBound) {
+double initializeDouble(string path = "all", double lowerBound = 0, double upperBound = 0) {
 	bool isCorrect = false;
 	double temporaryVariable;
 	while (!isCorrect) {
@@ -70,10 +79,18 @@ double initializeDouble(string path, double lowerBound, double upperBound) {
 		cin >> temporaryVariableString;
 		isCorrect = true;
 		for (size_t i = 0; i < 128; i++) {
-			if ((i < (int)'0' || i >(int)'9') &&
-				i != (int)'-' && i != (int)'.') {
-				if (temporaryVariableString.find((char)i) != string::npos) {
-					isCorrect = false;
+			if (i < (int)'0' || i >(int)'9') {
+				if (i != (int)'-' && i != (int)'.') {
+					if (temporaryVariableString.find((char)i) != string::npos) {
+						isCorrect = false;
+					}
+				}
+				else if (temporaryVariableString.find((char)i) != string::npos) {
+					if ((count(temporaryVariableString.begin(),
+						temporaryVariableString.end(), (char)i) > 1)
+						|| temporaryVariableString.length() == 1) {
+						isCorrect = false;
+					}
 				}
 			}
 		}
@@ -112,7 +129,7 @@ double initializeDouble(string path, double lowerBound, double upperBound) {
 }
 
 void f1() {
-
+	
 }
 
 void f2() {
@@ -124,7 +141,7 @@ int main() {
 	setlocale(LC_ALL, "Russian");
 	cout << "Hello!\nTask number can't be more than 2.\n"
 		"Enter 0 to end the programm.\nEnter the task number :\n";
-	chooseTask = initializeInteger("notnegative", 0, 0);
+	chooseTask = initializeInteger("notnegative");
 	while (chooseTask > 0) {
 		switch (chooseTask) {
 		case 1:
@@ -140,6 +157,6 @@ int main() {
 			break;
 		}
 		cout << "Enter the next task number:\n";
-		chooseTask = initializeInteger("notnegative", 0, 0);
+		chooseTask = initializeInteger("notnegative");
 	}
 }
