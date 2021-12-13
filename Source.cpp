@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #define _USE_MATH_DEFINES
+#define NOMINMAX
+#include <windows.h>
 #include <cmath>
 #include <cstdlib>
 #include <fstream> // for if/ofstream
@@ -139,6 +141,9 @@ void f2() {
 int main() {
 	int chooseTask;
 	setlocale(LC_ALL, "Russian");
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD dwMode = ENABLE_PROCESSED_INPUT;
+	SetConsoleMode(hOut, dwMode);
 	cout << "Hello!\nTask number can't be more than 2.\n"
 		"Enter 0 to end the programm.\nEnter the task number :\n";
 	chooseTask = initializeInteger("notnegative");
